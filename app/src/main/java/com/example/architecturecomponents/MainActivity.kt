@@ -26,10 +26,11 @@ class MainActivity : AppCompatActivity() {
         jsonPlaceholderApi = retrofit
             .create(JsonPlaceholderApi::class.java)
 
-
-        getPost(
+        createPostFormUrlEncoded()
+        //createPost()
+        /*getPost(
             mapOf("id" to "1","_sort" to "id")
-        )
+        )*/
         //getPost()
         //getComments()
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun getPost(params:Map<String,String>) {
+    fun getPost(params: Map<String, String>) {
         var call = jsonPlaceholderApi.getPosts(params)
 
         call.enqueue(object : Callback<List<Post>> {
@@ -90,6 +91,56 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 txt.text = content
+            }
+
+        })
+    }
+
+    fun createPost() {
+        var post = Post(32, "new", "new")
+        var call = jsonPlaceholderApi.createPost(post)
+        call.enqueue(object : Callback<Post> {
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                var post = response.body()!!
+                var posts = response.body()!!
+
+                var content: String = ""
+                content += "ID: ${post.id} \n"
+                content += "User ID: ${post.userId} \n"
+                content += "Title: ${post.title} \n"
+                content += "Body: ${post.text} \n"
+
+                txt.text = content
+
+            }
+
+        })
+    }
+
+    fun createPostFormUrlEncoded() {
+        var post = Post(32, "new", "new")
+        var call = jsonPlaceholderApi.createPost(
+            12, "data", "text"
+        )
+        call.enqueue(object : Callback<Post> {
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                var post = response.body()!!
+                var posts = response.body()!!
+
+                var content: String = ""
+                content += "ID: ${post.id} \n"
+                content += "User ID: ${post.userId} \n"
+                content += "Title: ${post.title} \n"
+                content += "Body: ${post.text} \n"
+
+                txt.text = content
+
             }
 
         })
@@ -154,4 +205,6 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
+
+
 }
