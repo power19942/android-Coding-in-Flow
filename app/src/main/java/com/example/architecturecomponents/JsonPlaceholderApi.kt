@@ -36,11 +36,12 @@ interface JsonPlaceholderApi {
     fun createPost(@FieldMap params: Map<String, Any>): Call<Post>
 
 
+    @Headers("custom-header: 123","another-header: header value")
     @PUT("posts/{id}")
     fun putPost(@Path("id")id:Int,@Body post:Post): Call<Post>
 
     @PATCH("posts/{id}")
-    fun patchPost(@Path("id")id:Int,@Body post:Post): Call<Post>
+    fun patchPost(@Header("My-custom-header") headerParam:String? = null, @Path("id")id:Int, @Body post:Post): Call<Post>
 
 
     @DELETE("posts/{id}")

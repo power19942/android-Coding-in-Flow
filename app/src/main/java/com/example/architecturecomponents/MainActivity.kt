@@ -24,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         var okHttpClient = OkHttpClient.Builder()
+            .addInterceptor {
+                var originalRequest = it.request()
+                var newRequest = originalRequest.newBuilder()
+                    .header("headerName","value").build()
+                it.proceed(newRequest)
+            }
             .addInterceptor(interceptor)
             .build()
 
