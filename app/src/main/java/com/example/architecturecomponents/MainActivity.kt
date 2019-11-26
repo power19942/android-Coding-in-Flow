@@ -2,6 +2,7 @@ package com.example.architecturecomponents
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         jsonPlaceholderApi = retrofit
             .create(JsonPlaceholderApi::class.java)
 
-        createPostFormUrlEncoded()
+        deletePost()
+        //patchPost()
+        //putPost()
+        //createPostFormUrlEncoded()
         //createPost()
         /*getPost(
             mapOf("id" to "1","_sort" to "id")
@@ -115,6 +119,68 @@ class MainActivity : AppCompatActivity() {
 
                 txt.text = content
 
+            }
+
+        })
+    }
+
+    fun putPost(){
+        var post = Post(12,null,"new text")
+        var call = jsonPlaceholderApi.putPost(5,post)
+        call.enqueue(object :Callback<Post>{
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                var post = response.body()!!
+                var posts = response.body()!!
+
+                var content: String = ""
+                content += "ID: ${post.id} \n"
+                content += "User ID: ${post.userId} \n"
+                content += "Title: ${post.title} \n"
+                content += "Body: ${post.text} \n"
+
+                txt.text = content
+            }
+
+        })
+    }
+
+    fun patchPost(){
+        var post = Post(15,null,"new text")
+        var call = jsonPlaceholderApi.patchPost(6,post)
+        call.enqueue(object :Callback<Post>{
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                var post = response.body()!!
+                var posts = response.body()!!
+
+                var content: String = ""
+                content += "ID: ${post.id} \n"
+                content += "User ID: ${post.userId} \n"
+                content += "Title: ${post.title} \n"
+                content += "Body: ${post.text} \n"
+
+                txt.text = content
+            }
+
+        })
+    }
+
+    fun deletePost(){
+        var call = jsonPlaceholderApi.deletePost(6)
+        call.enqueue(object :Callback<Void>{
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                Toast.makeText(this@MainActivity,"Done",Toast.LENGTH_SHORT).show()
             }
 
         })

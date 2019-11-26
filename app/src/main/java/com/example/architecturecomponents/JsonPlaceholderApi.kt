@@ -35,4 +35,14 @@ interface JsonPlaceholderApi {
     @POST("posts")
     fun createPost(@FieldMap params: Map<String, Any>): Call<Post>
 
+
+    @PUT("posts/{id}")
+    fun putPost(@Path("id")id:Int,@Body post:Post): Call<Post>
+
+    @PATCH("posts/{id}")
+    fun patchPost(@Path("id")id:Int,@Body post:Post): Call<Post>
+
+
+    @DELETE("posts/{id}")
+    fun deletePost(@Path("id") id:Int): Call<Void>
 }
