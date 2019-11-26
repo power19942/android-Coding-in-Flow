@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,18 +20,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        var okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
+
         var retrofit = Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
 
 
         jsonPlaceholderApi = retrofit
             .create(JsonPlaceholderApi::class.java)
 
-        deletePost()
+        //deletePost()
         //patchPost()
-        //putPost()
+        putPost()
         //createPostFormUrlEncoded()
         //createPost()
         /*getPost(
@@ -124,10 +134,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun putPost(){
-        var post = Post(12,null,"new text")
-        var call = jsonPlaceholderApi.putPost(5,post)
-        call.enqueue(object :Callback<Post>{
+    fun putPost() {
+        var post = Post(12, null, "new text")
+        var call = jsonPlaceholderApi.putPost(5, post)
+        call.enqueue(object : Callback<Post> {
             override fun onFailure(call: Call<Post>, t: Throwable) {
 
             }
@@ -148,10 +158,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun patchPost(){
-        var post = Post(15,null,"new text")
-        var call = jsonPlaceholderApi.patchPost(6,post)
-        call.enqueue(object :Callback<Post>{
+    fun patchPost() {
+        var post = Post(15, null, "new text")
+        var call = jsonPlaceholderApi.patchPost(6, post)
+        call.enqueue(object : Callback<Post> {
             override fun onFailure(call: Call<Post>, t: Throwable) {
 
             }
@@ -172,15 +182,15 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun deletePost(){
+    fun deletePost() {
         var call = jsonPlaceholderApi.deletePost(6)
-        call.enqueue(object :Callback<Void>{
+        call.enqueue(object : Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
 
             }
 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                Toast.makeText(this@MainActivity,"Done",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Done", Toast.LENGTH_SHORT).show()
             }
 
         })
