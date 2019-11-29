@@ -11,20 +11,12 @@ import com.example.architecturecomponents.model.Note
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     var items: List<Note>? = null
-
-    class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var title = view.findViewById<TextView>(R.id.text_view_title)
-        var description = view.findViewById<TextView>(
-            R.id.text_view_description
-        )
-        var priority = view.findViewById<TextView>(
-            R.id.text_view_priority
-        )
-    }
+    private lateinit var listener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         var view = LayoutInflater.from(parent.context).inflate(
-            R.layout.note_item, parent, false)
+            R.layout.note_item, parent, false
+        )
         return NoteViewHolder(
             view
         )
@@ -37,10 +29,41 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun getNoteAt(position: Int): Note = items!!.get(position)
+
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         var note = items!![position]
         holder.title.text = note.title
         holder.description.text = note.description
         holder.priority.text = note.priority.toString()
+    }
+
+    inner class NoteViewHolder : RecyclerView.ViewHolder {
+        var title: TextView
+        var description: TextView
+        var priority: TextView
+
+        constructor(view: View) : super(view) {
+            title = view.findViewById<TextView>(R.id.text_view_title)
+            description = view.findViewById<TextView>(
+                R.id.text_view_description
+            )
+            priority = view.findViewById<TextView>(
+                R.id.text_view_priority
+            )
+
+            view.setOnClickListener {
+                if (listener != null && adapterPosition != RecyclerView.NO_POSITION)
+                    listener.onItemClick(items!![adapterPosition])
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(note: Note)
+    }
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
     }
 }
