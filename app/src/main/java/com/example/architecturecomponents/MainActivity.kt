@@ -19,6 +19,7 @@ import com.example.architecturecomponents.vm.NoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var noteViewModel: NoteViewModel
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         noteViewModel = ViewModelProviders.of(this@MainActivity).get(NoteViewModel::class.java)
 
         noteViewModel.allNotes.observe(this@MainActivity, Observer<List<Note>> {
-            noteAdapter.setNotes(it)
+            noteAdapter.submitList(it)
         })
 
 
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            val title: String = data!!.getStringExtra(AddEditNoteActivity.EXTRA_TITLE)
+            val title: String = data.getStringExtra(AddEditNoteActivity.EXTRA_TITLE)
             val description: String =
                 data!!.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION)
             val priority: Int = data!!.getIntExtra(AddEditNoteActivity.EXTRA_PR, 1)
