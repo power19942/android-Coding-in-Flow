@@ -9,16 +9,25 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Schedule Job"
-        android:id="@+id/btn_start"/>
+        android:hint="Input"
+        android:id="@+id/edit_text"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cancel Job"
-        android:id="@+id/cancel"/>
+        android:text="Start Service"/>
+
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Stop Service"/>
+
 
 </LinearLayout>
