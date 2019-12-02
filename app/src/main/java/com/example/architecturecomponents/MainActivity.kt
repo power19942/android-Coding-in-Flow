@@ -1,14 +1,11 @@
 package com.example.architecturecomponents
 
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
-import android.content.ComponentName
-import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,37 +15,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val jobId = 3321
-
-
+        //intent service do the work on background thread
 
         btn_start.setOnClickListener {
-
-            var componentName = ComponentName(this, MyJobService::class.java)
-            var info = JobInfo.Builder(jobId, componentName)
-                .setRequiresCharging(true)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build()
-
-            var scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-            var res = scheduler.schedule(info)
-
-            if (res == JobScheduler.RESULT_SUCCESS) {
-                Log.d("MyJobService", "job completed")
-            } else
-                Log.d("MyJobService", "job error")
-
+            var i = Intent(this,MyService::class.java)
+            i.putExtra("extra",txt.text.toString())
+            ContextCompat.startForegroundService(this@MainActivity,i)
         }
 
-
-
-        cancel.setOnClickListener {
-            var scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-            scheduler.cancel(jobId)
-            Log.d("MyJobService", "job canceled")
-        }
     }
 }
