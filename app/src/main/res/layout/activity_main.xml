@@ -9,16 +9,17 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+
+    <EditText
+        android:id="@+id/edit_text_input"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Schedule Job"
-        android:id="@+id/btn_start"/>
+        android:hint="Input" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_start"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cancel Job"
-        android:id="@+id/cancel"/>
+        android:text="Enqueue Work" />
 
 </LinearLayout>

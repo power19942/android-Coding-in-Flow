@@ -4,10 +4,10 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -23,32 +23,11 @@ class MainActivity : AppCompatActivity() {
 
 
         btn_start.setOnClickListener {
-
-            var componentName = ComponentName(this, MyJobService::class.java)
-            var info = JobInfo.Builder(jobId, componentName)
-                .setRequiresCharging(true)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build()
-
-            var scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-
-            var res = scheduler.schedule(info)
-
-            if (res == JobScheduler.RESULT_SUCCESS) {
-                Log.d("MyJobService", "job completed")
-            } else
-                Log.d("MyJobService", "job error")
-
+            var i = Intent(this,MyJobService::class.java)
+            i.putExtra("extra",edit_text_input.text.toString())
+            MyJobService.enqueue(this@MainActivity,i)
         }
 
 
-
-        cancel.setOnClickListener {
-            var scheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-            scheduler.cancel(jobId)
-            Log.d("MyJobService", "job canceled")
-        }
     }
 }
