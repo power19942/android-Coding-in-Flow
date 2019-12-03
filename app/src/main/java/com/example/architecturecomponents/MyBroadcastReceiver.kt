@@ -7,10 +7,7 @@ import android.widget.Toast
 
 class MyBroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
-        if ("com.example.architecturecomponents.ACTION".equals(intent?.action)){
-            var text = intent?.getStringExtra("extra")
-            Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
-        }
+        Toast.makeText(context,"sdf;a,mdlaksmdal;smd", Toast.LENGTH_SHORT).show()
     }
 
 }
