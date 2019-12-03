@@ -7,8 +7,9 @@ import android.widget.Toast
 
 class MyBroadcastReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent?.action)){
-            Toast.makeText(context,"boot completed", Toast.LENGTH_SHORT).show()
+        if ("com.example.architecturecomponents.ACTION".equals(intent?.action)){
+            var text = intent?.getStringExtra("extra")
+            Toast.makeText(context,text, Toast.LENGTH_SHORT).show()
         }
     }
 
